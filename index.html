@@ -3,162 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Gift For You</title>
+    <title>For My Love</title>
     <style>
-        :root {
-            --bg-color: #050505;
-            --pink: #ff85a1;
-            --red: #e01e37;
-            --purple: #9d4edd;
-            --stem: #2d6a4f;
-        }
-
         body {
-            background-color: var(--bg-color);
+            background-color: #0d0208;
             margin: 0;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-family: 'Georgia', serif;
             overflow: hidden;
-            transition: background 3s ease;
+            font-family: 'Georgia', serif;
         }
 
         #ui-container {
             text-align: center;
-            z-index: 100;
-            transition: opacity 1s;
+            z-index: 10;
         }
 
         h1 {
             color: white;
-            font-size: 2.5rem;
-            text-shadow: 0 0 15px rgba(255, 77, 109, 0.6);
-            margin-bottom: 30px;
+            font-size: 2.2rem;
+            text-shadow: 0 0 20px #ff4d6d;
+            margin-bottom: 2rem;
         }
 
         .btn-receive {
-            padding: 18px 45px;
-            font-size: 1.3rem;
-            background: linear-gradient(45deg, var(--red), var(--pink));
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #e01e37, #ff85a1);
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(224, 30, 55, 0.4);
-            transition: 0.3s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
 
-        .btn-receive:hover {
-            transform: scale(1.1);
-        }
-
-        /* The Bouquet */
-        .bouquet {
+        /* The Bouquet Area */
+        .flower-garden {
             display: none;
             position: relative;
-            width: 200px;
-            height: 300px;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: flex-end;
         }
 
         .flower {
             position: absolute;
-            bottom: 0;
+            bottom: 10%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             transform-origin: bottom center;
-            opacity: 0;
+            animation: grow 3s ease-out forwards;
         }
 
-        .flower.animate {
-            animation: growIn 3s ease-out forwards;
+        /* Realistic Rose Head */
+        .rose {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
         }
 
-        .flower-top { position: relative; width: 80px; height: 80px; }
         .petal {
             position: absolute;
-            width: 45px;
-            height: 65px;
-            border-radius: 50% 50% 10% 50%;
-            left: 20px;
-            bottom: 20px;
-            transform-origin: bottom right;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-            opacity: 0.9;
+            border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
+            transform-origin: bottom center;
+            transition: 2s;
         }
 
+        /* Stem and Leaves */
         .stem {
-            width: 6px;
-            height: 200px;
-            background: linear-gradient(to bottom, var(--stem), #1b4332);
-            margin: 0 auto;
-            border-radius: 5px;
+            width: 8px;
+            height: 300px;
+            background: linear-gradient(to bottom, #1b4332, #081c15);
+            border-radius: 4px;
         }
+
+        .leaf {
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            background: #2d6a4f;
+            border-radius: 0 50% 0 50%;
+            top: 40%;
+        }
+
+        /* Flower Positions and Colors */
+        .f-red { left: 40%; }
+        .f-red .petal { background: radial-gradient(circle, #ff0000, #4a0000); }
+        
+        .f-purple { left: 50%; bottom: 15%; z-index: 5; }
+        .f-purple .petal { background: radial-gradient(circle, #9d4edd, #3c096c); }
+
+        .f-pink { left: 60%; }
+        .f-pink .petal { background: radial-gradient(circle, #ff85a1, #a4133c); }
 
         /* Animations */
-        @keyframes growIn {
-            0% { transform: translateY(100px) scale(0); opacity: 0; }
-            100% { transform: translateY(0) scale(1); opacity: 1; }
+        @keyframes grow {
+            0% { transform: scale(0) translateY(500px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
         }
 
-        @keyframes bloom {
-            from { transform: rotate(var(--angle)) scale(0); }
-            to { transform: rotate(var(--angle)) scale(1); }
-        }
-
-        /* Falling Hearts */
         .heart {
             position: absolute;
-            color: #ff4d6d;
+            color: rgba(255, 77, 109, 0.7);
             font-size: 20px;
-            top: -20px;
-            z-index: 1;
-            animation: fall linear forwards;
+            animation: float 4s linear infinite;
         }
 
-        @keyframes fall {
-            to { transform: translateY(100vh) rotate(360deg); }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
-
-        /* Positioning */
-        .f1 { left: -60px; rotate: -15deg; }
-        .f2 { left: 40px; rotate: 0deg; }
-        .f3 { left: 140px; rotate: 15deg; }
-
-        .red-flower .petal { background: radial-gradient(circle, #ff4d6d, #800000); }
-        .pink-flower .petal { background: radial-gradient(circle, #ffb3c1, #c9184a); }
-        .purple-flower .petal { background: radial-gradient(circle, #e0aaff, #5a189a); }
     </style>
 </head>
 <body>
 
-    <audio id="bgMusic">
+    <audio id="music" loop>
         <source src="https://s-jim-brickman-valentine.mp3.pm/" type="audio/mpeg">
     </audio>
 
     <div id="ui-container">
-        <h1>Happy Valentine's Day</h1>
-        <button class="btn-receive" onclick="startExperience()">Receive Flower</button>
+        <h1>A Special Gift For You</h1>
+        <button class="btn-receive" onclick="openBouquet()">Receive Flowers</button>
     </div>
 
-    <div class="bouquet" id="bouquet">
-        <div class="flower f1 pink-flower"><div class="flower-top" id="p-top"></div><div class="stem"></div></div>
-        <div class="flower f2 red-flower"><div class="flower-top" id="r-top"></div><div class="stem" style="height: 240px;"></div></div>
-        <div class="flower f3 purple-flower"><div class="flower-top" id="v-top"></div><div class="stem"></div></div>
+    <div class="flower-garden" id="garden">
+        <div class="flower f-red">
+            <div class="rose" id="rose-red"></div>
+            <div class="stem"><div class="leaf" style="left: -35px;"></div></div>
+        </div>
+        <div class="flower f-purple">
+            <div class="rose" id="rose-purple"></div>
+            <div class="stem" style="height: 350px;"><div class="leaf" style="right: -35px; transform: scaleX(-1);"></div></div>
+        </div>
+        <div class="flower f-pink">
+            <div class="rose" id="rose-pink"></div>
+            <div class="stem"><div class="leaf" style="left: -35px;"></div></div>
+        </div>
     </div>
 
     <script>
-        function createPetals(containerId) {
-            const container = document.getElementById(containerId);
-            for (let i = 0; i < 6; i++) {
+        function createRose(id) {
+            const rose = document.getElementById(id);
+            // Create 15 petals for each rose to make it look full and realistic
+            for (let i = 0; i < 15; i++) {
                 const petal = document.createElement('div');
                 petal.className = 'petal';
-                const angle = i * 60;
-                petal.style.transform = `rotate(${angle}deg)`;
-                petal.style.animation = `bloom 2s ease-out ${1.5 + (i * 0.1)}s forwards`;
-                petal.style.setProperty('--angle', `${angle}deg`);
-                petal.style.scale = "0";
-                container.appendChild(petal);
+                
+                // Varied petal sizes for 3D look
+                const size = 100 - (i * 5);
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
+                petal.style.left = (50 - size/2) + 'px';
+                petal.style.top = (50 - size/2) + 'px';
+                
+                // Rotation for layers
+                const rotate = i * 45;
+                petal.style.transform = `rotate(${rotate}deg) scale(0)`;
+                
+                // Delay blooming effect
+                setTimeout(() => {
+                    petal.style.transform = `rotate(${rotate}deg) scale(1)`;
+                }, 1000 + (i * 150));
+                
+                rose.appendChild(petal);
             }
         }
 
@@ -168,36 +180,29 @@
                 heart.className = 'heart';
                 heart.innerHTML = '❤';
                 heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.bottom = '0';
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
                 document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 5000);
-            }, 300);
+                setTimeout(() => heart.remove(), 4000);
+            }, 400);
         }
 
-        function startExperience() {
+        function openBouquet() {
             // Play Music
-            const music = document.getElementById('bgMusic');
-            music.play().catch(e => console.log("Music play blocked by browser"));
+            const audio = document.getElementById('music');
+            audio.play().catch(() => console.log("Music blocked - user needs to interact"));
 
-            // UI Transition
-            document.getElementById('ui-container').style.opacity = '0';
-            setTimeout(() => { document.getElementById('ui-container').style.display = 'none'; }, 1000);
+            // UI Fade
+            document.getElementById('ui-container').style.display = 'none';
+            document.getElementById('garden').style.display = 'flex';
+            document.body.style.background = "linear-gradient(to bottom, #2d0b1a, #0d0208)";
 
-            // Show Flowers
-            const bouquet = document.getElementById('bouquet');
-            bouquet.style.display = 'block';
-            createPetals('p-top');
-            createPetals('r-top');
-            createPetals('v-top');
-
-            const flowers = document.querySelectorAll('.flower');
-            flowers.forEach((f, index) => {
-                setTimeout(() => { f.classList.add('animate'); }, index * 600);
-            });
-
-            // Start Effects
+            // Initialize 3D Roses
+            createRose('rose-red');
+            createRose('rose-purple');
+            createRose('rose-pink');
+            
             spawnHearts();
-            document.body.style.background = "#1a050d";
         }
     </script>
 </body>
