@@ -3,116 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You</title>
+    <title>My Valentine</title>
     <style>
         body {
-            background: radial-gradient(circle, #1a0510 0%, #050505 100%);
+            background: radial-gradient(circle at center, #2b061a 0%, #000000 100%);
             margin: 0;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            font-family: 'Serif', 'Georgia', serif;
+            font-family: 'Georgia', serif;
         }
 
         #ui-container {
             text-align: center;
-            z-index: 100;
+            z-index: 1000;
         }
 
         h1 {
             color: #fff;
-            font-size: 2rem;
-            text-shadow: 0 0 15px rgba(255, 77, 109, 0.5);
+            font-size: 2.5rem;
+            text-shadow: 0 0 20px rgba(255, 77, 109, 0.8);
             margin-bottom: 2rem;
         }
 
         .btn-receive {
-            padding: 15px 40px;
-            font-size: 1.1rem;
-            background: linear-gradient(45deg, #e01e37, #ff85a1);
+            padding: 18px 50px;
+            font-size: 1.3rem;
+            background: linear-gradient(45deg, #ff002b, #ff85a1);
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 30px rgba(255, 0, 43, 0.3);
             transition: 0.3s;
         }
 
-        /* The Bouquet Centerpiece */
-        .bouquet-wrap {
+        .btn-receive:hover { transform: scale(1.1); box-shadow: 0 15px 40px rgba(255, 0, 43, 0.5); }
+
+        /* Bouquet Container */
+        #bouquet-container {
             display: none;
             position: relative;
-            width: 300px;
+            width: 400px;
             height: 500px;
             justify-content: center;
-        }
-
-        .flower {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
             align-items: center;
-            transform-origin: bottom center;
         }
 
-        /* Organic Rose Head */
-        .rose-head {
-            position: relative;
-            width: 120px;
-            height: 120px;
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+        svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
         }
 
-        .petal {
-            position: absolute;
-            background: inherit;
-            border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
-            left: 50%;
-            top: 50%;
-            transform-origin: bottom center;
-            box-shadow: inset -5px -10px 20px rgba(0,0,0,0.4), inset 5px 5px 15px rgba(255,255,255,0.1);
-        }
-
-        /* Stem Styling */
-        .stem {
-            width: 4px;
-            height: 350px;
-            background: linear-gradient(to bottom, #132a13, #081c15);
-            border-radius: 4px;
-            position: relative;
-            z-index: -1;
-        }
-
-        /* Centering the bouquet */
-        .f-red { transform: translateX(-40px) rotate(-10deg); z-index: 2; }
-        .f-red .petal { background: radial-gradient(circle at center, #ff002b, #4a0005); }
-
-        .f-purple { transform: translateY(-30px) scale(1.1); z-index: 3; }
-        .f-purple .petal { background: radial-gradient(circle at center, #9d4edd, #240046); }
-
-        .f-pink { transform: translateX(40px) rotate(10deg); z-index: 1; }
-        .f-pink .petal { background: radial-gradient(circle at center, #ff85a1, #590d22); }
-
-        /* Floating Hearts */
-        .heart {
-            position: absolute;
-            color: #ff4d6d;
-            animation: rise 5s linear infinite;
+        /* Bloom Animation */
+        .flower-part {
+            transform-origin: center;
+            animation: bloom 3s ease-out forwards;
             opacity: 0;
-            z-index: 50;
-        }
-
-        @keyframes rise {
-            0% { transform: translateY(0) scale(0.5); opacity: 0; }
-            20% { opacity: 0.8; }
-            100% { transform: translateY(-80vh) scale(1.2); opacity: 0; }
         }
 
         @keyframes bloom {
-            from { transform: translate(-50%, -50%) rotate(var(--r)) scale(0); opacity: 0; }
-            to { transform: translate(-50%, -50%) rotate(var(--r)) scale(1); opacity: 1; }
+            0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+            60% { opacity: 1; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        /* Floating Hearts Background */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            pointer-events: none;
+            animation: fly 6s linear forwards;
+            z-index: 1;
+        }
+
+        @keyframes fly {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
@@ -124,77 +96,79 @@
 
     <div id="ui-container">
         <h1>For My Valentine</h1>
-        <button class="btn-receive" onclick="showGift()">Receive Flowers</button>
+        <button class="btn-receive" onclick="revealGift()">Receive Flowers</button>
     </div>
 
-    <div class="bouquet-wrap" id="bouquet">
-        <div class="flower f-red">
-            <div class="rose-head" id="rose-red"></div>
-            <div class="stem"></div>
-        </div>
-        <div class="flower f-purple">
-            <div class="rose-head" id="rose-purple"></div>
-            <div class="stem" style="height: 380px;"></div>
-        </div>
-        <div class="flower f-pink">
-            <div class="rose-head" id="rose-pink"></div>
-            <div class="stem"></div>
-        </div>
+    <div id="bouquet-container">
+        <svg viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g class="flower-part" style="animation-delay: 0.2s;">
+                <path d="M200 450 L180 200 M200 450 L220 200 M200 450 L200 180" stroke="#132a13" stroke-width="6" stroke-linecap="round"/>
+                <path d="M185 300 Q150 280 140 310 Q160 330 185 305" fill="#2d6a4f" />
+                <path d="M215 320 Q250 300 260 330 Q240 350 215 325" fill="#1b4332" />
+                <rect x="185" y="400" width="30" height="15" rx="5" fill="#ff002b" />
+            </g>
+
+            <g class="flower-part" style="animation-delay: 1s;">
+                <circle cx="200" cy="180" r="45" fill="url(#purpleGrad)"/>
+                <path d="M200 150 C230 150 240 180 200 210 C160 180 170 150 200 150" fill="#3c096c" opacity="0.6"/>
+                <circle cx="200" cy="180" r="15" fill="#240046"/>
+            </g>
+
+            <g class="flower-part" style="animation-delay: 1.5s;">
+                <circle cx="150" cy="230" r="45" fill="url(#redGrad)"/>
+                <path d="M150 200 C180 200 190 230 150 260 C110 230 120 200 150 200" fill="#4a0005" opacity="0.6"/>
+                <circle cx="150" cy="230" r="15" fill="#310000"/>
+            </g>
+
+            <g class="flower-part" style="animation-delay: 2s;">
+                <circle cx="250" cy="230" r="45" fill="url(#pinkGrad)"/>
+                <path d="M250 200 C280 200 290 230 250 260 C210 230 220 200 250 200" fill="#590d22" opacity="0.6"/>
+                <circle cx="250" cy="230" r="15" fill="#a4133c"/>
+            </g>
+
+            <defs>
+                <radialGradient id="redGrad">
+                    <stop offset="10%" stop-color="#ff002b" />
+                    <stop offset="100%" stop-color="#4a0005" />
+                </radialGradient>
+                <radialGradient id="purpleGrad">
+                    <stop offset="10%" stop-color="#9d4edd" />
+                    <stop offset="100%" stop-color="#240046" />
+                </radialGradient>
+                <radialGradient id="pinkGrad">
+                    <stop offset="10%" stop-color="#ff85a1" />
+                    <stop offset="100%" stop-color="#590d22" />
+                </radialGradient>
+            </defs>
+        </svg>
     </div>
 
     <script>
-        function createRealisticRose(containerId) {
-            const container = document.getElementById(containerId);
-            const petalCount = 25; // More petals for realism
-            
-            for (let i = 0; i < petalCount; i++) {
-                const petal = document.createElement('div');
-                petal.className = 'petal';
-                
-                // Spiral growth pattern
-                const size = 100 - (i * 3.5);
-                const rotation = i * 137.5; // Golden angle for natural spiral
-                
-                petal.style.width = size + 'px';
-                petal.style.height = (size * 1.1) + 'px';
-                petal.style.setProperty('--r', rotation + 'deg');
-                
-                // Staggered bloom animation
-                petal.style.animation = `bloom 2.5s cubic-bezier(0.17, 0.67, 0.83, 0.67) forwards`;
-                petal.style.animationDelay = (i * 0.1) + 's';
-                
-                container.appendChild(petal);
-            }
+        function revealGift() {
+            // Music Play
+            const music = document.getElementById('loveSong');
+            music.play();
+
+            // Hide Button/Text
+            document.getElementById('ui-container').style.display = 'none';
+
+            // Show Flowers
+            const bouquet = document.getElementById('bouquet-container');
+            bouquet.style.display = 'flex';
+
+            // Start Hearts
+            setInterval(createHeart, 300);
         }
 
-        function showGift() {
-            // Start Music
-            const music = document.getElementById('loveSong');
-            music.volume = 0.5;
-            music.play().catch(e => console.log("Audio Play Failed"));
-
-            // Toggle UI
-            document.getElementById('ui-container').style.display = 'none';
-            document.getElementById('bouquet').style.display = 'flex';
-
-            // Build Roses
-            createRealisticRose('rose-red');
-            createRealisticRose('rose-purple');
-            createRealisticRose('rose-pink');
-
-            // Floating Hearts
-            setInterval(() => {
-                const h = document.createElement('div');
-                h.className = 'heart';
-                h.innerHTML = '❤';
-                h.style.left = Math.random() * 100 + 'vw';
-                h.style.top = '90vh';
-                h.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                document.body.appendChild(h);
-                setTimeout(() => h.remove(), 5000);
-            }, 300);
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
         }
     </script>
 </body>
 </html>
-
